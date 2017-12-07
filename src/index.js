@@ -52,6 +52,7 @@ const setupPage = async (browser, throttle) => {
 
   const uniqueTitle = uuid.v4()
   await page.evaluate((title) => {
+    // eslint-disable-next-line no-undef
     document.title = title
   }, uniqueTitle)
 
@@ -68,12 +69,12 @@ const setupPage = async (browser, throttle) => {
     client.Network.clearBrowserCookies(),
     client.Network.setCacheDisabled({ cacheDisabled: true }),
     throttle &&
-    client.Network.emulateNetworkConditions({
-      downloadThroughput,
-      latency,
-      uploadThroughput,
-      offline: false,
-    }),
+      client.Network.emulateNetworkConditions({
+        downloadThroughput,
+        latency,
+        uploadThroughput,
+        offline: false,
+      }),
   ])
 
   return page
@@ -115,7 +116,7 @@ const testThrottledBatch = async (browser, args, sample, throttle) => {
     (all, values) => mapValues(values, (value, key) => (all[key] || 0) + Math.pow(value - means[key], 2)),
     {},
   )
-  const stds = mapValues(squareSumStds, value => Math.sqrt(value / (data.length - 1)))
+  const stds = mapValues(squareSumStds, value => Math.sqrt(value / Math.max(1, data.length - 1)))
 
   return {
     means: mapValues(means, value => Math.round(value)),
@@ -129,24 +130,28 @@ const prepareData = statistics =>
     mapValues(statistics[0], (value, key) => [titleCase(key)]),
   )
 
-const writeCsv = (filename, data) =>
+const writeCsv = (filename, data) => {
+  const csvFilename = path.extname(filename) === '.csv' ? filename : `${filename}.csv`
+
+  const adjustPrecisionTitle = ([title, ...row]) =>
+    (Array.isArray(row[0]) ? zip([title, `${title} precision`], ...row) : [[title, ...row]])
+
+  const dataRows = Object.values(data).map(adjustPrecisionTitle)
+
   fs.writeFileSync(
-    path.extname(filename) === '.csv' ? filename : `${filename}.csv`,
-    zip(
-      ...flatten(
-        Object.values(data).map(
-          ([title, ...row]) => (Array.isArray(row[0]) ? zip([title, `${title} precision`], ...row) : [[title, ...row]]),
-        ),
-      ),
-    )
+    csvFilename,
+    zip(...flatten(dataRows))
       .map(rows => rows.join(','))
       .join('\n'),
   )
+}
 
-const printTable = data =>
-  console.log(
-    table(zip(...Object.values(data)).map(row => row.map(col => (Array.isArray(col) ? `${col[0]} ± ${col[1]}` : col)))),
-  )
+const printTable = (data) => {
+  const transposed = zip(...Object.values(data))
+  const colToString = col => (Array.isArray(col) ? `${col[0]} ± ${col[1]}` : col)
+
+  console.log(table(transposed.map(row => row.map(colToString))))
+}
 
 const test = async (args, sample) => {
   console.log(chalk`{cyan Benchmark starting with {bold ${args.samples}} samples per test.}`)
@@ -189,7 +194,10 @@ const test = async (args, sample) => {
     // eslint-disable-next-line no-await-in-loop
     const { means, stds } = await testThrottledBatch(browser, args, sample, throttle)
 
-    statistics.push({ ...mapValues(means, (value, key) => [value, stds[key]]), throttling: throttleName })
+    statistics.push({
+      ...mapValues(means, (value, key) => [value, stds[key]]),
+      throttling: throttleName,
+    })
   }
 
   const data = prepareData(statistics)
@@ -237,20 +245,19 @@ const program = yargs
   .demandCommand(1, 'Please specify a test case.')
 
 const testsPath = path.join(__dirname, 'tests')
-const testCases = fs.readdirSync(testsPath)
-  .reduce((all, testFile) => {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    const importedTest = require(path.join(testsPath, testFile))
+const testCases = fs.readdirSync(testsPath).reduce((all, testFile) => {
+  // eslint-disable-next-line global-require, import/no-dynamic-require
+  const importedTest = require(path.join(testsPath, testFile))
 
-    if (typeof importedTest.commandOptions === 'object') {
-      program.options(importedTest.commandOptions)
-    }
+  if (typeof importedTest.commandOptions === 'object') {
+    program.options(importedTest.commandOptions)
+  }
 
-    return {
-      ...all,
-      [path.parse(testFile).name]: importedTest.default,
-    }
-  }, {})
+  return {
+    ...all,
+    [path.parse(testFile).name]: importedTest.default,
+  }
+}, {})
 
 const args = program.argv
 
