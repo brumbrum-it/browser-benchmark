@@ -1,0 +1,40 @@
+{
+  "name": "browser-benchmark",
+  "version": "0.0.0",
+  "description": "Benchmark webpages using puppeteer and Chromium",
+  "main": "lib/index.js",
+  "bin": "lib/index.js",
+  "author": {
+    "name": "Enoah Netzach",
+    "email": "f.castellarin@gmail.com",
+    "url": "https://github.com/EnoahNetzach"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src -d lib",
+    "format": "prettier-eslint \"src/**/*.js\""
+  },
+  "engines": {
+    "node": ">= 4"
+  },
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "chrome-remote-interface": "^0.25.4",
+    "lodash": "^4.17.4",
+    "puppeteer": "^0.13.0",
+    "table": "^4.0.2",
+    "title-case": "^2.1.1",
+    "uuid": "^3.1.0",
+    "yargs": "^10.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.12.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "prettier-eslint-cli": "^4.4.2"
+  }
+}
