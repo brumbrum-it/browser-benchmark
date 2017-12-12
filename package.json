@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Benchmark webpages using puppeteer and Chromium",
   "main": "lib/index.js",
-  "bin": "lib/index.js",
+  "bin": {
+    "benchmark": "bin/index.js"
+  },
   "author": {
     "name": "Enoah Netzach",
     "email": "f.castellarin@gmail.com",
@@ -16,11 +18,15 @@
     "lint": "eslint src"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 4.0.0"
   },
   "dependencies": {
     "chalk": "^2.3.0",
     "chrome-remote-interface": "^0.25.4",
+    "fs-extra": "^4.0.3",
+    "jest-config": "^21.2.1",
+    "jest-environment-node": "^21.2.1",
+    "jest-runtime": "^21.2.1",
     "lodash": "^4.17.4",
     "puppeteer": "^0.13.0",
     "table": "^4.0.2",
