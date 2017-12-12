@@ -5,7 +5,7 @@
     "jest": true
   },
   "extends": [
-    "airbnb-BASE"
+    "airbnb-base"
   ],
   "parser": "babel-eslint",
   "rules": {

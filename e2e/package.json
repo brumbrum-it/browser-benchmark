@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "benchmark": "benchmark google -s 5 -l -q test -t none -t wifi -t fastmobile -t slowmobile"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "browser-benchmark": "file:.."
+  }
+}
