@@ -1,3 +1,4 @@
+import chalk from 'chalk'
 import fs from 'fs'
 import path from 'path'
 import yargs from 'yargs'
@@ -39,10 +40,26 @@ export default async () => {
     .demandCommand(1, 'Please specify a test case.')
 
   const testsPath = path.join(process.cwd(), 'benchmark')
+
+  try {
+    fs.accessSync(testsPath)
+  } catch (error) {
+    console.error(chalk`{red No "benchmark" directory found in {bold ${process.cwd()}}}`)
+    console.error(error)
+
+    process.exit(1)
+  }
+
   const importer = await importTest(testsPath)
 
   const testCases = fs.readdirSync(testsPath).reduce((all, testFile) => {
-    const importedTest = importer(path.join(testsPath, testFile))
+    const filePath = path.join(testsPath, testFile)
+
+    if (!fs.statSync(filePath).isFile()) {
+      return all
+    }
+
+    const importedTest = importer(filePath)
 
     if (typeof importedTest.commandOptions === 'object') {
       program.options(importedTest.commandOptions)
