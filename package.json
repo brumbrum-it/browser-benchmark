@@ -1,6 +1,6 @@
 {
   "name": "browser-benchmark",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Benchmark webpages using puppeteer and Chromium",
   "main": "lib/index.js",
   "bin": {
@@ -15,7 +15,8 @@
   "scripts": {
     "build": "babel src -d lib",
     "format": "prettier-eslint \"src/**/*.js\" --write",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "prepublishOnly": "yarn build"
   },
   "engines": {
     "node": ">=6.4.0"
