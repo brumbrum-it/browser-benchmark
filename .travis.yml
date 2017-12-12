@@ -21,7 +21,7 @@ before_install:
 
 script:
   - yarn lint
-  - yarn build
+  - yarn lib
 #  - yarn test -- --coverage TODO: write a test suite
   # E2E
   - cd e2e
