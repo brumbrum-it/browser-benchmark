@@ -6,6 +6,10 @@
   "bin": {
     "benchmark": "bin/index.js"
   },
+  "files": [
+    "bin/",
+    "lib/"
+  ],
   "directories": {
     "bin": "./bin",
     "lib": "./lib"
