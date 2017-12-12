@@ -6,6 +6,10 @@
   "bin": {
     "benchmark": "bin/index.js"
   },
+  "directories": {
+    "bin": "./bin",
+    "lib": "./lib"
+  },
   "author": {
     "name": "Enoah Netzach",
     "email": "f.castellarin@gmail.com",
@@ -13,10 +17,10 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "babel src -d lib",
     "format": "prettier-eslint \"src/**/*.js\" --write",
+    "lib": "babel src -d lib",
     "lint": "eslint src",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn lib"
   },
   "engines": {
     "node": ">=6.4.0"
