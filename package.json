@@ -1,6 +1,6 @@
 {
   "name": "browser-benchmark",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "Benchmark webpages using puppeteer and Chromium",
   "main": "lib/index.js",
   "bin": {
