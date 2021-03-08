@@ -51,6 +51,6 @@
     "eslint": "^4.15.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
-    "prettier-eslint-cli": "^4.4.2"
+    "prettier-eslint-cli": "^5.0.1"
   }
 }
