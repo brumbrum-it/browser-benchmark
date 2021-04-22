@@ -30,7 +30,7 @@
     "node": ">=6.4.0"
   },
   "dependencies": {
-    "chalk": "^2.3.0",
+    "chalk": "^4.1.1",
     "chrome-remote-interface": "^0.25.4",
     "fs-extra": "^5.0.0",
     "jest-config": "^22.4.3",
