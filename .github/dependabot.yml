@@ -1,0 +1,31 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "02:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: chalk
+    versions:
+    - 4.1.0
+  - dependency-name: table
+    versions:
+    - 6.0.7
+    - 6.0.8
+    - 6.0.9
+    - 6.1.0
+    - 6.3.0
+    - 6.3.2
+    - 6.3.4
+    - 6.5.1
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: chrome-remote-interface
+    versions:
+    - 0.29.0
+  - dependency-name: prettier-eslint-cli
+    versions:
+    - 5.0.0
